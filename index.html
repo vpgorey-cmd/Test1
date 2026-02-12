@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divergence Board</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hud">
+        <div>
+          <h1>DIVERGENCE BOARD</h1>
+          <p>24-hour radial event map (severity-scaled rays)</p>
+        </div>
+        <div class="range-controls" role="group" aria-label="Time range">
+          <button class="range active" data-range="24h">24h</button>
+          <button class="range" data-range="4d">4d</button>
+          <button class="range" data-range="month">month</button>
+        </div>
+      </header>
+
+      <section class="stage" aria-label="Divergence map">
+        <svg id="board" viewBox="0 0 1200 1200" role="img" aria-labelledby="boardTitle boardDesc">
+          <title id="boardTitle">Divergence map with eclipse rays</title>
+          <desc id="boardDesc">Rays around the eclipse correspond to event times and severity.</desc>
+
+          <defs>
+            <filter id="blurSoft" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3" />
+            </filter>
+            <filter id="blurHeavy" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="8" />
+            </filter>
+          </defs>
+
+          <g id="zoomLayer">
+            <g id="raysBack"></g>
+            <g id="raysFront"></g>
+            <circle id="sunRim" cx="600" cy="600" r="330"></circle>
+            <circle id="sunFace" cx="600" cy="600" r="322"></circle>
+          </g>
+        </svg>
+      </section>
+
+      <aside class="details" id="details" aria-live="polite">
+        <h2>Event details</h2>
+        <p class="hint">Select a ray to inspect event name, location, and local time.</p>
+      </aside>
+    </main>
+
+    <template id="detailTemplate">
+      <h2 data-field="name"></h2>
+      <dl>
+        <div><dt>Location</dt><dd data-field="location"></dd></div>
+        <div><dt>Local time</dt><dd data-field="time"></dd></div>
+        <div><dt>Date</dt><dd data-field="date"></dd></div>
+        <div><dt>Severity</dt><dd data-field="severity"></dd></div>
+      </dl>
+      <p data-field="description"></p>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
